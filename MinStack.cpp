@@ -15,23 +15,23 @@ public:
 
     MinStack() { }
 
-    void push(int n)
+    void push(int newVal)
 	{
-        normal_stack.push(n);
-
-        if(min_stack.empty())
+        normal_stack.push(newVal);
+        //min_stack is pushed only if new_val is less than or equal to min_stack.top()
+        if(min_stack.empty() || newVal <= min_stack.top() )
 		{
-        	min_stack.push(n);
+        	min_stack.push(newVal);
 		}
-        else //Store, every time normal_stack is pushed with new value n, min_stack is pushed with min of n and min_stack's top
-        {
-        	min_stack.push(min(min_stack.top(), n));
-		}
-
     }
     void pop() {
+
+        //min stack is popped ONLY if the top values (BEFORE popping) of the min stack and normal stack are equal.
+        if(normal_stack.top() == min_stack.top())
+        {
+            min_stack.pop();
+        }
         normal_stack.pop();
-        min_stack.pop();
     }
     int top() {
         return normal_stack.top();
